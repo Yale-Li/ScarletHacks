@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoptable Pets</title>
+</head>
+<body>
+    <h1>Adoptable Pets</h1>
+
+    <div class="pet-list" id="petList">
+        <!-- Results will be dynamically added here -->
+    </div>
+    <div class="pet-list" id="apiResults">
+        <!-- Results will be dynamically added here -->
+    </div>
+    <script>
+        // Create an empty array to hold dictionaries
+        const pets = [];
+
+        // Fetch data from the AdoptAPet API
+        async function fetchData() {
+            try {
+                const response = await fetch('https://api-staging.adoptapet.com/search/pet_search?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&city_or_zip=60616&geo_range=50&species=dog&breed_id=real=801&sex=m&age=young&color_id=54&pet_size_range_id=2&hair=&bonded_pair=&special_needs=&include_mixes=&added_after=&start_number=1&end_number=50&meta_only=0');
+                if (response.ok) {
+                    const data = await response.json();
+                    displayData(data);
+                } else {
+                    console.error('API call failed with status code:', response.status);
+                }
+            } catch (error) {
+                console.error('Error occurred during API call:', error);
+            }
+        }
+
+        // Display the fetched data
+        function displayData(data) {
+            const apiResultsDiv = document.getElementById('apiResults');
+            const formattedData = JSON.stringify(data, null, 2); // Pretty-print the JSON data
+            // Parse the JSON string into a JavaScript object
+            const parsedData = JSON.parse(formattedData);
+
+            // Search for a specific field (e.g., "name")
+            const targetField = parsedData.pets;
+
+            console.log(`Name: ${targetField[0].pet_name}`);
+
+            // Add dictionaries (objects) to the array
+            for (let value of targetField) {
+                const myDictionary = {
+                    name: value.pet_name,
+                    breed: value.primary_breed,
+                    photoUrl: value.results_photo_url,
+                    detailsUrl: value.details_url,
+                };
+                pets.push(myDictionary);
+            }
+
+            // Print the array to see the result
+            console.log(pets);
+            // apiResultsDiv.textContent = formattedData;
+
+            // Create pet divs dynamically
+            const petListDiv = document.getElementById('petList');
+            pets.forEach(pet => {
+                const petDiv = document.createElement('div');
+                petDiv.className = 'pet-item';
+
+                const img = document.createElement('img');
+                img.src = pet.photoUrl;
+                img.alt = pet.name;
+
+                const h2 = document.createElement('h2');
+                h2.textContent = pet.name;
+
+                const p = document.createElement('p');
+                p.textContent = `Primary Breed: ${pet.breed}`;
+
+                const a = document.createElement('a');
+                a.href = pet.detailsUrl;
+                a.textContent = 'Details';
+
+                petDiv.appendChild(img);
+                petDiv.appendChild(h2);
+                petDiv.appendChild(p);
+                petDiv.appendChild(a);
+
+                petListDiv.appendChild(petDiv);
+            });
+
+        }
+
+        // Call the fetchData function
+        fetchData();
+
+    </script>
+    <style>
+        .pet-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .pet-item {
+            width: 200px;
+            margin: 10px;
+            text-align: center;
+        }
+        .pet-item img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</body>
+</html>
