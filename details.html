@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        #petDetails {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        p {
+            color: #666;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4c4eaf;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .centered-image {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>Pet Details</h1>
+    <div id="petDetails">
+        <h2>My name is</h2>
+        <div class="image-container">
+            <img class="centered-image"/>
+        </div>
+        <p>Status: </p>
+        <p>Species: </p>
+        <p>Breed:</p>
+        <p>Color: </p>
+        <p>Age: </p>
+        <p>Sex: </p>
+        <p>Size: </p>
+        <p>City: </p>
+        <p>Pet ID : </p>
+        <button id="applyButton">Apply Online</button>
+        <button id="searchButton">search</button>
+    </div>
+
+    <script>
+        // const searchButton = document.getElementById('searchButton');
+        // searchButton.addEventListener('click', () => {
+        //     // Replace this with your actual apply logic or redirection to an application form
+        //     fetch('https://api-staging.adoptapet.com/search/limited_pet_details?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&pet_id=27625364')
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error('Network response was not ok');
+        //             }
+        //             return response.json();
+        //         })
+        //         .then(data => {
+        //             console.log(data);
+        //             // Use the data as needed
+        //             displayDataOnPage(data.pet)
+        //         })
+        //         .catch(error => {
+        //             console.error('There was a problem with the fetch operation:', error);
+        //         });
+        // });
+
+        document.getElementById('applyButton').addEventListener('click', () => {
+            // Replace this with your actual search logic
+            alert('Thank you for applying!')
+        });
+
+        // Function to update page content using the fetched data
+        function displayDataOnPage(petData) {
+            const petDetailsContainer = document.getElementById('petDetails');
+            petDetailsContainer.innerHTML = `
+        <h2>My name is ${petData.pet_name}!</h2>
+        <div class="image-container">
+            ${petData.images.map(image => `<img class="centered-image" src="${image.thumbnail_url}" />`).join('')}
+        </div>
+        <p>Status: ${petData.status}</p>
+        <p>Species: ${petData.species}</p>
+        <p>Breed: ${petData.primary_breed}</p>
+        <p>Color: ${petData.color}</p>
+        <p>Age: ${petData.age}</p>
+        <p>Sex: ${petData.sex}</p>
+        <p>Size: ${petData.size}</p>
+        <p>City: ${petData.addr_city}</p>
+        <p>Pet ID : ${petData.pet_code}</p>
+        <button id="applyButton">Apply Online</button>
+      `;
+        }
+    </script>
+</body>
+
+</html>
+<!-- <p>Status: ${pet.status}</p> -->
+<!-- 
+{
+    "status": "ok",
+    "pet": {
+      "primary_breed": "American Pit Bull Terrier",
+      "species": "Dog",
+      "act_quickly": 0,
+      "addr_city": "Richmond",
+      "addr_state_code": "IN",
+      "age": "Young",
+      "automap": 0,
+      "color": "Black - with White",
+      "hair_length": null,
+      "pet_id": 27625364,
+      "pet_name": "Onyx",
+      "pet_code": "1410017",
+      "last_modified": "2020-01-28T10:44:58",
+      "purebred": null,
+      "secondary_breed": null,
+      "sex": "Male",
+      "size": "Med. 26-60 lbs (12-27 kg)",
+      "special_needs": null,
+      "images": [
+        {
+          "thumbnail_url": "https://pet-uploads-staging.adoptapet.com/7/4/0/463119981.jpg",
+          "thumbnail_width": 125,
+          "thumbnail_height": 167,
+          "original_url": "https://pet-uploads-staging.adoptapet.com/0/9/5/463119979.jpg",
+          "original_width": 247,
+          "original_height": 329
+        }
+      ],
+      "video_url": null,
+      "pet_details_url": "https://www-staging.adoptapet.com/pet/27625364-richmond-indiana-american-pit-bull-terrier-mix",
+      "status": "available"
+    }
+  } -->
