@@ -67,7 +67,7 @@
     <div id="petDetails">
         <h2>My name is</h2>
         <div class="image-container">
-            <img class="centered-image"/>
+            <img class="centered-image" />
         </div>
         <p>Status: </p>
         <p>Species: </p>
@@ -83,6 +83,31 @@
     </div>
 
     <script>
+        window.onload = () => {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var detail_url = urlParams.get('detail_url');
+            // var param2 = urlParams.get('param2');
+            console.log('queryString: ' + queryString);
+            console.log('Parameter 1: ' + param1);
+            // console.log('Parameter 2: ' + param2);
+            // 'https://api-staging.adoptapet.com/search/limited_pet_details?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&pet_id=27625364'
+            fetch(detail_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // Use the data as needed
+                    displayDataOnPage(data.pet)
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
         // const searchButton = document.getElementById('searchButton');
         // searchButton.addEventListener('click', () => {
         //     // Replace this with your actual apply logic or redirection to an application form
@@ -105,7 +130,7 @@
 
         document.getElementById('applyButton').addEventListener('click', () => {
             // Replace this with your actual search logic
-            alert('Thank you for applying!')
+            window.location.href = "./success.html"
         });
 
         // Function to update page content using the fetched data
