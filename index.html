@@ -93,6 +93,19 @@
 
 		</section><!--/.welcome-hero-->
 		<!--welcome-hero end -->
+        
+        <!--list-topics start -->
+		<section id="list-topics" class="list-topics">
+			<div class="container">
+				<div id="list-topics-content" class="list-topics-content">
+                    
+				</div>
+			</div><!--/.container-->
+
+		</section><!--/.list-topics-->
+		<!--list-topics end-->
+
+
     <div class="pet-list" id="petList">
         <!-- Results will be dynamically added here -->
     </div>
@@ -136,38 +149,69 @@
                 pets.push(myDictionary);
             }
 
-            // Print the array to see the result
-            console.log(pets);
             // apiResultsDiv.textContent = formattedData;
 
-            // Create pet divs dynamically
-            const petListDiv = document.getElementById('petList');
+            // Get the parent container where the listings will be displayed
+            const listingsContainer = document.getElementById('list-topics-content');
+            const petul = document.createElement('ul');
+
+            // Print the array to see the result
+            // console.log('++++', pets);
+            // Iterate through the listings and create the HTML structure
             pets.forEach(pet => {
-                const petDiv = document.createElement('div');
-                petDiv.className = 'pet-item';
+                const listItem = document.createElement('li');
+                details_url = encodeURIComponent(pet.detailsUrl);
+                a_href = './details.html?detail_url=' + details_url;
 
-                const img = document.createElement('img');
-                img.src = pet.photoUrl;
-                img.alt = pet.name;
-
-                const h2 = document.createElement('h2');
-                h2.textContent = pet.name;
-
-                const p = document.createElement('p');
-                p.textContent = `Primary Breed: ${pet.breed}`;
+                listItem.innerHTML = `
+                    <div class="single-list-topics-content">
+                        <div class="single-list-topics-icon">
+                            <i class="">
+                                <img src="${pet.photoUrl}" alt="${pet.name}">
+                            </i>
+                        </div>
+                        <h2><a href="${a_href}">Details</a></h2>
+                        <h2>${pet.breed}</h2>
+                        <p>${pet.name}listings</p>
+                    </div>
+                `;
 
                 const a = document.createElement('a');
-                details_url = encodeURIComponent(pet.detailsUrl);
-                a.href = './details.html?detail_url=' + details_url;
+
                 a.textContent = 'Details';
 
-                petDiv.appendChild(img);
-                petDiv.appendChild(h2);
-                petDiv.appendChild(p);
-                petDiv.appendChild(a);
-
-                petListDiv.appendChild(petDiv);
+                petul.appendChild(listItem);
+                listingsContainer.appendChild(petul);
             });
+
+            // // Create pet divs dynamically
+            // const petListDiv = document.getElementById('petList');
+            // pets.forEach(pet => {
+            //     const petDiv = document.createElement('div');
+            //     petDiv.className = 'pet-item';
+
+            //     const img = document.createElement('img');
+            //     img.src = pet.photoUrl;
+            //     img.alt = pet.name;
+
+            //     const h2 = document.createElement('h2');
+            //     h2.textContent = pet.name;
+
+            //     const p = document.createElement('p');
+            //     p.textContent = `Primary Breed: ${pet.breed}`;
+
+            //     const a = document.createElement('a');
+            //     details_url = encodeURIComponent(pet.detailsUrl);
+            //     a.href = './details.html?detail_url=' + details_url;
+            //     a.textContent = 'Details';
+
+            //     petDiv.appendChild(img);
+            //     petDiv.appendChild(h2);
+            //     petDiv.appendChild(p);
+            //     petDiv.appendChild(a);
+
+            //     petListDiv.appendChild(petDiv);
+            // });
 
         }
 
@@ -203,6 +247,19 @@
 
     </script>
 
+    <script>
+        // // Create an array of listing categories with their details
+        // const listings = [
+        //     { icon: 'flaticon-restaurant', category: pet.photoUrl, count: 150 },
+        //     { icon: 'flaticon-travel', category: 'destination', count: 214 },
+        //     { icon: 'flaticon-building', category: 'hotels', count: 185 },
+        //     { icon: 'flaticon-pills', category: 'healthcaree', count: 200 },
+        //     { icon: 'flaticon-transport', category: 'automotion', count: 120 },
+        // ];
+
+
+
+    </script>
     <style>
         .pet-list {
             display: flex;
