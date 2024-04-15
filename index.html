@@ -157,7 +157,8 @@
                 p.textContent = `Primary Breed: ${pet.breed}`;
 
                 const a = document.createElement('a');
-                a.href = pet.detailsUrl;
+                details_url = encodeURIComponent(pet.detailsUrl);
+                a.href = './details.html?detail_url=' + details_url;
                 a.textContent = 'Details';
 
                 petDiv.appendChild(img);
