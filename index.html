@@ -63,6 +63,7 @@
             // Create pet divs dynamically
             const petListDiv = document.getElementById('petList');
             pets.forEach(pet => {
+
                 const petDiv = document.createElement('div');
                 petDiv.className = 'pet-item';
 
@@ -77,7 +78,8 @@
                 p.textContent = `Primary Breed: ${pet.breed}`;
 
                 const a = document.createElement('a');
-                a.href = pet.detailsUrl;
+                details_url = encodeURIComponent(pet.detailsUrl);
+                a.href = './details.html?detail_url=' + details_url;
                 a.textContent = 'Details';
 
                 petDiv.appendChild(img);
@@ -111,3 +113,12 @@
     </style>
 </body>
 </html>
+
+
+
+{
+    "name": "Wasabi",
+    "breed": "Pit Bull Terrier",
+    "photoUrl": "https://pet-uploads-staging.adoptapet.com/f/9/4/473749224.jpg",
+    "detailsUrl": "https://api-staging.adoptapet.com/search/pet_details?pet_id=28059274&key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json"
+  }
