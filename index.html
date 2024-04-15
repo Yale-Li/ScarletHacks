@@ -244,29 +244,17 @@
 
     <script>
         async function performSearch() {
-            const what = document.getElementById('searchInput_what').value;
-            const location = document.getElementById('searchInput_location').value;
-            console.log('what, location', what, location, location!== null && what !== null)
-            const trimmedValue_what = what.trim();
-            if (!trimmedValue_what) {
-                // Input is empty (including whitespace-only input)
-                alert('Please input species what you want to adopt, such as a cat or dog.');
-                return;
+            what = document.getElementById('searchInput_what').value;
+            geo = document.getElementById('searchInput_location').value;
+            console.log(what, geo)
+            if (!geo) {
+                geo = '60616'
             }
-
-            const trimmedValue_locationt = location.trim();
-            if (!trimmedValue_locationt) {
-                // Input is empty (including whitespace-only input)
-                alert('Please input location where you want to adopt, such as a city name or zip code.');
-                return;
+            if (!what){
+                what = 'dog'
             }
-
-            if (trimmedValue_what== null || trimmedValue_locationt == null) {
-                // Display an alert message
-                alert("Please input What or Location");
-            } else {
                 try {
-                    const response = await fetch(`https://api-staging.adoptapet.com/search/pet_search?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&city_or_zip=${location}&geo_range=50&species=${what}`);
+                    const response = await fetch(`https://api-staging.adoptapet.com/search/pet_search?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&city_or_zip=${geo}&geo_range=50&species=${what}`);
 
                     if (response.ok) {
                         const data = await response.json();
@@ -283,7 +271,6 @@
                 } catch (error) {
                     console.error('Error occurred:', error);
                 }
-            }
 
         }
 
