@@ -90,24 +90,119 @@
             var detail_url = urlParams.get('detail_url');
 
             console.log('Parameter: ' + detail_url);
-            // 'https://api-staging.adoptapet.com/search/limited_pet_details?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&pet_id=27625364'
-            fetch(detail_url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    // Use the data as needed
-                    displayDataOnPage(data.pet)
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        }
+            if (queryString === '' || detail_url === null || detail_url === undefined || detail_url === '') {
 
+                // 'https://api-staging.adoptapet.com/search/limited_pet_details?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&pet_id=27625364'
+                local_pet = {
+  "primary_breed": "American Pit Bull Terrier",
+  "species": "Dog",
+  "act_quickly": 0,
+  "addr_city": "Chicago",
+  "addr_state_code": "IL",
+  "age": "Adult",
+  "automap": 0,
+  "color": "White - with Brown or Chocolate",
+  "hair_length": null,
+  "pet_id": 27741345,
+  "pet_name": "Max",
+  "pet_code": "1439317",
+  "last_modified": "2020-02-11T15:37:05",
+  "purebred": null,
+  "secondary_breed": null,
+  "sex": "Male",
+  "size": "Med. 26-60 lbs (12-27 kg)",
+  "special_needs": null,
+  "images": [
+    {
+      "thumbnail_url": "https://pet-uploads-staging.adoptapet.com/a/a/a/465943293.jpg",
+      "thumbnail_width": 125,
+      "thumbnail_height": 167,
+      "original_url": "https://pet-uploads-staging.adoptapet.com/6/9/1/465943288.jpg",
+      "original_width": 247,
+      "original_height": 329
+    },
+    {
+      "thumbnail_url": "https://pet-uploads-staging.adoptapet.com/9/d/0/465943315.jpg",
+      "thumbnail_width": 125,
+      "thumbnail_height": 167,
+      "original_url": "https://pet-uploads-staging.adoptapet.com/c/1/e/465943311.jpg",
+      "original_width": 247,
+      "original_height": 329
+    },
+    {
+      "thumbnail_url": "https://pet-uploads-staging.adoptapet.com/2/3/9/465943314.jpg",
+      "thumbnail_width": 125,
+      "thumbnail_height": 167,
+      "original_url": "https://pet-uploads-staging.adoptapet.com/a/4/9/465943310.jpg",
+      "original_width": 247,
+      "original_height": 329
+    },
+    {
+      "thumbnail_url": "https://pet-uploads-staging.adoptapet.com/a/f/6/465943291.jpg",
+      "thumbnail_width": 125,
+      "thumbnail_height": 167,
+      "original_url": "https://pet-uploads-staging.adoptapet.com/f/3/f/465943287.jpg",
+      "original_width": 247,
+      "original_height": 329
+    }
+  ],
+  "video_url": null,
+  "clan_id": 1,
+  "declawed": null,
+  "housetrained": 1,
+  "shelter_name": "For Adoption By Private Owner (Chicago, IL)",
+  "adoption_process": null,
+  "addr_line_1": null,
+  "addr_line_2": null,
+  "addr_postal_code": "60661",
+  "addr_country_code": "US",
+  "areas_served": null,
+  "description": "Max is a super sweet 3.5 Pit Bull mix in search of his forever home. He's looking for an experienced dog parents who can give him the love and patience he needs to thrive. Max loves to play tug of war, go on walks, and loves to give kisses. He takes a moment to warm up, but once he does, your his forever. \r\n\r\nMax was taken in a few weeks ago to save from being euthanized. Unfortunately, his fosters can't keep him as they are in the midst of a transition. ",
+  "donation_url": null,
+  "email": "adoptions@adoptapet.com",
+  "fax_area_code": null,
+  "fax_number": null,
+  "good_with_cats": null,
+  "good_with_dogs": 1,
+  "good_with_kids": null,
+  "phone_area_code": "",
+  "phone_extension": null,
+  "phone_number": "",
+  "shelter_id": 92895,
+  "shelter_desc": "This pet is available for adoption by a private owner. Adopt-a-Pet.com will be supervising this adoption as part of a pilot program designed to help pets in need stay out of the shelter.",
+  "shelter_driving_dir": null,
+  "shots_current": 1,
+  "spayed_neutered": 1,
+  "website_url": null,
+  "contact_person": "Adopt-a-Pet.com Rehoming Team",
+  "experienced_adopter": 1,
+  "family_label": "Breed",
+  "good_with_birds": null,
+  "good_with_small_animals": null,
+  "bonded_to": null,
+  "rideable": null,
+  "rescue_group_p": 0,
+  "status": "available"
+};
+                displayDataOnPage(local_pet.pet);
+            } else {
+                fetch(detail_url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        // Use the data as needed
+                        displayDataOnPage(data.pet)
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+        }
         document.getElementById('applyButton').addEventListener('click', () => {
             window.location.href = "./success.html"
             console.log('Apply button clicked' + window.location.href);
@@ -128,7 +223,7 @@
         <p>Age: ${petData.age}</p>
         <p>Sex: ${petData.sex}</p>
         <p>Size: ${petData.size}</p>
-        <p>City: ${petData.addr_city}</p>
+        <p>City: ${petData.addr_city}, ${petData.addr_state_code}</p>
         <p>Pet ID : ${petData.pet_code}</p>
       `;
         }
@@ -137,8 +232,8 @@
 
 </html>
 <!-- <p>Status: ${pet.status}</p> -->
-<!-- 
-{
+
+<!-- {
     "status": "ok",
     "pet": {
       "primary_breed": "American Pit Bull Terrier",
