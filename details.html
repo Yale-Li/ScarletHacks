@@ -91,8 +91,6 @@
 
             console.log('Parameter: ' + detail_url);
             if (queryString === '' || detail_url === null || detail_url === undefined || detail_url === '') {
-
-                // 'https://api-staging.adoptapet.com/search/limited_pet_details?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&pet_id=27625364'
                 local_pet = {
   "primary_breed": "American Pit Bull Terrier",
   "species": "Dog",
@@ -184,7 +182,7 @@
   "rescue_group_p": 0,
   "status": "available"
 };
-                displayDataOnPage(local_pet.pet);
+                displayDataOnPage(local_pet);
             } else {
                 fetch(detail_url)
                     .then(response => {
