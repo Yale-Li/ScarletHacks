@@ -1,19 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoptable Pets</title>
-</head>
-<body>
-    <h1>Adoptable Pets</h1>
+<!doctype html>
+<html class="no-js" lang="en">
 
+    <head>
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!--font-family-->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+        
+        <!-- title of site -->
+        <title>Adoptable Pets</title>
+
+        <!-- For favicon png -->
+		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png"/>
+       
+        <!--font-awesome.min.css-->
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+        <!--linear icon css-->
+		<link rel="stylesheet" href="assets/css/linearicons.css">
+
+		<!--animate.css-->
+        <link rel="stylesheet" href="assets/css/animate.css">
+
+		<!--flaticon.css-->
+        <link rel="stylesheet" href="assets/css/flaticon.css">
+
+		<!--slick.css-->
+        <link rel="stylesheet" href="assets/css/slick.css">
+		<link rel="stylesheet" href="assets/css/slick-theme.css">
+		
+        <!--bootstrap.min.css-->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		
+		<!-- bootsnav -->
+		<link rel="stylesheet" href="assets/css/bootsnav.css" >	
+        
+        <!--style.css-->
+        <link rel="stylesheet" href="assets/css/style.css">
+        
+        <!--responsive.css-->
+        <link rel="stylesheet" href="assets/css/responsive.css">
+        
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		
+        <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+
+		<!--welcome-hero start -->
+		<section id="home" class="welcome-hero">
+			<div class="container">
+				<div class="welcome-hero-txt">
+					<h2>best pets to adopt and explore <br> that all you need </h2>
+					<p>
+						Find the pet just what you want just One click 
+					</p>
+				</div>
+				<div class="welcome-hero-serch-box">
+					<div class="welcome-hero-form">
+						<div class="single-welcome-hero-form">
+							<h3>what?</h3>
+							<form action="index.html">
+								<input id="searchInput_what" type="text" placeholder="Ex: cat, dog" />
+							</form>
+							<div class="welcome-hero-form-icon">
+								<i class="flaticon-list-with-dots"></i>
+							</div>
+						</div>
+						<div class="single-welcome-hero-form">
+							<h3>location</h3>
+							<form action="index.html">
+								<input id="searchInput_location" type="text" placeholder="Ex: Chicago, zip" />
+							</form>
+						</div>
+					</div>
+					<div class="welcome-hero-serch">
+						<button type="button" id="searchButton" class="welcome-hero-btn" onclick="performSearch()">
+							 search  <i data-feather="search"></i> 
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</section><!--/.welcome-hero-->
+		<!--welcome-hero end -->
     <div class="pet-list" id="petList">
         <!-- Results will be dynamically added here -->
     </div>
-    <div class="pet-list" id="apiResults">
-        <!-- Results will be dynamically added here -->
-    </div>
+
     <script>
         // Create an empty array to hold dictionaries
         const pets = [];
@@ -35,15 +118,12 @@
 
         // Display the fetched data
         function displayData(data) {
-            const apiResultsDiv = document.getElementById('apiResults');
             const formattedData = JSON.stringify(data, null, 2); // Pretty-print the JSON data
             // Parse the JSON string into a JavaScript object
             const parsedData = JSON.parse(formattedData);
 
             // Search for a specific field (e.g., "name")
             const targetField = parsedData.pets;
-
-            console.log(`Name: ${targetField[0].pet_name}`);
 
             // Add dictionaries (objects) to the array
             for (let value of targetField) {
@@ -63,7 +143,6 @@
             // Create pet divs dynamically
             const petListDiv = document.getElementById('petList');
             pets.forEach(pet => {
-
                 const petDiv = document.createElement('div');
                 petDiv.className = 'pet-item';
 
@@ -78,8 +157,7 @@
                 p.textContent = `Primary Breed: ${pet.breed}`;
 
                 const a = document.createElement('a');
-                details_url = encodeURIComponent(pet.detailsUrl);
-                a.href = './details.html?detail_url=' + details_url;
+                a.href = pet.detailsUrl;
                 a.textContent = 'Details';
 
                 petDiv.appendChild(img);
@@ -96,6 +174,34 @@
         fetchData();
 
     </script>
+
+    <script>
+        async function performSearch() {
+            const what = document.getElementById('searchInput_what').value;
+            const location = document.getElementById('searchInput_location').value;
+
+            if (location) {
+                try {
+                    const response = await fetch(`https://api-staging.adoptapet.com/search/pet_search?key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json&city_or_zip=60616&geo_range=50&species=dog`);
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        const myDiv = document.getElementById('petList');
+                        myDiv.innerHTML = '';
+
+                        displayData(data);
+                        
+                    } else {
+                        console.error('Error fetching data:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Error occurred:', error);
+                }
+            }
+        }
+
+    </script>
+
     <style>
         .pet-list {
             display: flex;
@@ -113,12 +219,3 @@
     </style>
 </body>
 </html>
-
-
-
-{
-    "name": "Wasabi",
-    "breed": "Pit Bull Terrier",
-    "photoUrl": "https://pet-uploads-staging.adoptapet.com/f/9/4/473749224.jpg",
-    "detailsUrl": "https://api-staging.adoptapet.com/search/pet_details?pet_id=28059274&key=hg4nsv85lppeoqqixy3tnlt3k8lj6o0c&v=3&output=json"
-  }
